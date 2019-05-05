@@ -4,11 +4,12 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/xt256.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
     <script>
         hljs.configure({
-            languages: ['php', 'python', 'javascript']
+            languages: ['php', 'python', 'javascript'],
+            // classPrefix: ''
         });
         document.addEventListener('DOMContentLoaded', (event) => {
             document.querySelectorAll('pre code').forEach((block) => {
@@ -18,8 +19,8 @@
 
     </script>
     <style>
-        .block-python {
-            background-color: #f4f4f4;
+        .nav-spacer {
+            height: 100px;
         }
 
         code {
@@ -28,6 +29,11 @@
 
         h1 {
             font-size: 1.8em;
+            background-color: #fff;
+        }
+
+        .block-python, .block-python h1 {
+            background-color: #f4f4f4;
         }
 
         h2 {
@@ -40,31 +46,48 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Rosetta PPJ</a>
+<div class="fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Rosetta PPJ</a>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="#assign">Assignment</a>
-            </li>
-        </ul>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#assign">Assignment</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#arithmetic">Arithmetic</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#string">Strings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#function">Functions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#condition">Conditions</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid position-fixed">
+        <div class="row">
+            <div class="col-sm-4 block-php">
+                <h1>PHP 7+</h1>
+            </div>
+            <div class="col-sm-4 block-python">
+                <h1>Python 3+</h1>
+            </div>
+            <div class="col-sm-4 block-js">
+                <h1>Javascript (ECMA 6+)</h1>
+            </div>
+        </div>
     </div>
+</div>
 
+<div class="nav-spacer"></div>
 
-</nav>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-4 block-php">
-            <h1>PHP</h1>
-        </div>
-        <div class="col-sm-4 block-python">
-            <h1>Python</h1>
-        </div>
-        <div class="col-sm-4 block-js">
-            <h1>JS</h1>
-        </div>
-    </div>
     <div class="row" id="assign">
         <h2 class="col-sm-12">Assignment</h2>
         <div class="col-sm-4 block-php">
@@ -74,6 +97,7 @@ $a = 1;
 $b = 'Hello';
 $c = ['array','of','items'];
 $d = ['key' => 'value']; // Uses arrays as dictionaries
+$e = true; // 'True' also accepted
                 </code>
             </pre>
 
@@ -85,6 +109,7 @@ a = 1
 b = 'Hello'
 c = ['array','of','items']
 d = {'key': 'value'}
+e = True # 'true' is an error
                 </code>
             </pre>
 
@@ -96,10 +121,189 @@ let a = 1; // Or 'const a = 1;' to prevent re-assignment
 let b = 'Hello';
 let c = ['array','of','items'];
 let d = {key: 'value'};
+let e = true; // 'True' is an error
                 </code>
             </pre>
 
         </div>
     </div>
+
+    <div class="row" id="arithmetic">
+        <h2 class="col-sm-12">Arithmetic</h2>
+        <div class="col-sm-4 block-php">
+            <pre>
+                <code class="php">
+$a = 1;
+$a++; // 2
+$a+=2; // 4
+$a--; // 3
+
+$a = 4 / 2; // 2
+$a = 3 % 3; // 1 (modulo)
+$a = 3 ** 2; // 9 (power)
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-python">
+            <pre>
+                <code class="python">
+a = 1
+a += 1 # 2 - no '++' operator
+a += 2 # 4
+a -= 1 # 3
+
+a = 4 / 2 # 2.0
+a = 3 % 2 # 1 (modulo)
+a = 3 ** 2 # 9 (power)
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-js">
+            <pre>
+                <code class="javascript">
+let a = 1;
+a++; //2
+a+=2; //4
+a--; //3
+
+a = 4 / 2 // 2.0
+a = 3 % 2 // 1 (modulo)
+a = 3 ** 2 // 9 (power)
+                </code>
+            </pre>
+
+        </div>
+    </div>
+
+    <div class="row" id="string">
+        <h2 class="col-sm-12">Strings</h2>
+        <div class="col-sm-4 block-php">
+            <pre>
+                <code class="php">
+$a = 'Hello' . ' World';
+
+$greeting = 'Hello';
+$subject = 'World';
+$message = "$greeting $subject"; // variants exist
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-python">
+            <pre>
+                <code class="python">
+a = 'Hello' + ' World';
+
+greeting = 'Hello';
+subject = 'World';
+message = f'{greeting} {subject}";
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-js">
+            <pre>
+                <code class="javascript">
+let a = 'Hello' + ' World';
+
+let greeting = 'Hello';
+let subject = 'World';
+let message = `${greeting} ${subject}`;
+                </code>
+            </pre>
+
+        </div>
+    </div>
+
+    <div class="row" id="function">
+        <h2 class="col-sm-12">Functions</h2>
+        <div class="col-sm-4 block-php">
+            <pre>
+                <code class="php">
+function increase($number, $by=1) {
+  return $number + $by;
+}
+
+increase(7); // 8
+increase(27, 15); // 42
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-python">
+            <pre>
+                <code class="python">
+def increase(number, by=1):
+  return number + by
+
+
+increase(7); # 8
+increase(27, 15); # 42
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-js">
+            <pre>
+                <code class="javascript">
+function increase(number, by=1) {
+  return number + by;
+}
+
+increase(7); // 8
+increase(27, 15); // 42
+                </code>
+            </pre>
+
+        </div>
+    </div>
+
+    <div class="row" id="condition">
+        <h2 class="col-sm-12">Conditions</h2>
+        <div class="col-sm-4 block-php">
+            <pre>
+                <code class="php">
+if ($a === 42) {
+  print('You have the answer');
+} else if ($a > 42) {
+  print('Too high!');
+} else {
+  print('Too low!');
+}
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-python">
+            <pre>
+                <code class="python">
+if a == 42:
+  print('You have the answer');
+elif a > 42:
+  print('Too high!')
+else:
+  print('Too low!')
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-js">
+            <pre>
+                <code class="javascript">
+if (a === 42) {
+  console.log('You have the answer');
+} else if (a > 42) {
+  console.log('Too high!');
+} else {
+  console.log('Too low!');
+}
+                </code>
+            </pre>
+
+        </div>
+    </div>
+</div>
 </body>
 </html>
