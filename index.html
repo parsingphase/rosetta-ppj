@@ -1,0 +1,105 @@
+<html>
+<head>
+    <title>PHP - Python - Javascript Rosetta</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        hljs.configure({
+            languages: ['php', 'python', 'javascript']
+        });
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+        });
+
+    </script>
+    <style>
+        .block-python {
+            background-color: #f4f4f4;
+        }
+
+        code {
+            text-align: left;
+        }
+
+        h1 {
+            font-size: 1.8em;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            background-color: #f0f0f0;
+            margin-bottom: 0;
+            padding-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Rosetta PPJ</a>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#assign">Assignment</a>
+            </li>
+        </ul>
+    </div>
+
+
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 block-php">
+            <h1>PHP</h1>
+        </div>
+        <div class="col-sm-4 block-python">
+            <h1>Python</h1>
+        </div>
+        <div class="col-sm-4 block-js">
+            <h1>JS</h1>
+        </div>
+    </div>
+    <div class="row" id="assign">
+        <h2 class="col-sm-12">Assignment</h2>
+        <div class="col-sm-4 block-php">
+            <pre>
+                <code class="php">
+$a = 1;
+$b = 'Hello';
+$c = ['array','of','items'];
+$d = ['key' => 'value']; // Uses arrays as dictionaries
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-python">
+            <pre>
+                <code class="python">
+a = 1
+b = 'Hello'
+c = ['array','of','items']
+d = {'key': 'value'}
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-js">
+            <pre>
+                <code class="javascript">
+let a = 1; // Or 'const a = 1;' to prevent re-assignment
+let b = 'Hello';
+let c = ['array','of','items'];
+let d = {key: 'value'};
+                </code>
+            </pre>
+
+        </div>
+    </div>
+</body>
+</html>
