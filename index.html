@@ -128,6 +128,9 @@
                         <a class="dropdown-item" href="#loop-object">Loop map</a>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#split-join">Split & join</a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -546,6 +549,42 @@ for (let thing in things) {
                 </code>
             </pre>
 
+        </div>
+    </div>
+
+    <div class="row" id="split-join">
+        <h2 class="col-sm-12">Split & join</h2>
+        <div class="col-sm-4 block-php">
+            <pre>
+                <code class="php">
+$letters = ['a','b','c','d','e'];
+$alpha = implode($letters); // 'abcde'
+$csv = implode(',', $letters); // 'a,b,c,d,e'
+$lettersAgain = explode( ',', $csv);
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-python">
+            <pre>
+                <code class="python">
+letters = ['a','b','c','d','e']
+alpha = ''.join(letters)
+csv = ','.join(letters)
+letters_again = csv.split(',')
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-js">
+            <pre>
+                <code class="javascript">
+let letters = ['a','b','c','d','e']
+let alpha = letters.join('')
+let csv = letters.join(',')
+let letters_again = csv.split(',')
+                </code>
+            </pre>
         </div>
     </div>
 </div>
