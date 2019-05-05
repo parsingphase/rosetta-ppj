@@ -125,6 +125,7 @@
                         <a class="dropdown-item" href="#loop">Loop range</a>
                         <a class="dropdown-item" href="#loop-array">Loop array natively</a>
                         <a class="dropdown-item" href="#loop-array-index">Loop array by index</a>
+                        <a class="dropdown-item" href="#loop-object">Loop map</a>
                     </div>
                 </li>
             </ul>
@@ -245,6 +246,7 @@ $a = 'Hello' . ' World';
 $greeting = 'Hello';
 $subject = 'World';
 $message = "$greeting $subject"; // variants exist
+$shout = strtoupper($message);
                 </code>
             </pre>
 
@@ -252,11 +254,12 @@ $message = "$greeting $subject"; // variants exist
         <div class="col-sm-4 block-python">
             <pre>
                 <code class="python">
-a = 'Hello' + ' World';
+a = 'Hello' + ' World'
 
-greeting = 'Hello';
-subject = 'World';
-message = f'{greeting} {subject}";
+greeting = 'Hello'
+subject = 'World'
+message = f'{greeting} {subject}'
+shout = message.upper()
                 </code>
             </pre>
 
@@ -269,6 +272,7 @@ let a = 'Hello' + ' World';
 let greeting = 'Hello';
 let subject = 'World';
 let message = `${greeting} ${subject}`;
+let shout = message.toUpperCase();
                 </code>
             </pre>
 
@@ -461,6 +465,83 @@ for i in range(0, len(colors)):
 let colors = ['red', 'green', 'blue'];
 for (let i=0; i < colors.length; i++) {
   console.log(`I see a ${colors[i]} bottle`);
+}
+                </code>
+            </pre>
+
+        </div>
+    </div>
+
+    <div class="row" id="loop-array-with-index">
+        <h2 class="col-sm-12">Loop array (with index)</h2>
+        <div class="col-sm-4 block-php">
+            <pre>
+                <code class="php">
+$colors = ['red', 'green', 'blue'];
+for ($i=0; $i < count($colors); $i++) {
+  print("$i) I see a ${colors[$i]} bottle\n");
+}
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-python">
+            <pre>
+                <code class="python">
+colors = ['red', 'green', 'blue']
+for (i, color) in enumerate(colors):
+  print(f"{i}) I see a {colors[i]} bottle")
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-js">
+            <pre>
+                <code class="javascript">
+let colors = ['red', 'green', 'blue'];
+for (let i=0; i < colors.length; i++) {
+  console.log(`${i}) I see a ${colors[i]} bottle`);
+}
+                </code>
+            </pre>
+
+        </div>
+    </div>
+
+    <div class="row" id="loop-object">
+        <h2 class="col-sm-12">Loop map</h2>
+        <div class="col-sm-4 block-php">
+            <pre>
+                <code class="php">
+// Mapping type is associative array
+$things = ['apple' => 'red', 'tree' => 'green', 'bottle' => 'blue'];
+foreach ($things as $thing => $color) {
+  print("I see a $color $thing\n");
+}
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-python">
+            <pre>
+                <code class="python">
+# Mapping type is dict
+things = { 'apple': 'red', 'tree': 'green', 'bottle': 'blue'}
+for (thing, color) in things.items():
+  print(f"I see a {color} {thing}")
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-js">
+            <pre>
+                <code class="javascript">
+// Mapping type is anonymous object
+const things = { apple: 'red', tree: 'green', bottle: 'blue'}
+for (let thing in things) {
+  if(things.hasOwnProperty(thing)) {
+    console.log(`I see a ${things[thing]} bottle`);
+  }
 }
                 </code>
             </pre>
