@@ -6,6 +6,8 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/xt256.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script>
         hljs.configure({
             languages: ['php', 'python', 'javascript'],
@@ -14,6 +16,20 @@
         document.addEventListener('DOMContentLoaded', (event) => {
             document.querySelectorAll('pre code').forEach((block) => {
                 hljs.highlightBlock(block);
+            });
+        });
+
+        $(document).ready(function () {
+            $('a.nav-link').on('click', function (e) {
+                var target = this.hash;
+                e.preventDefault();
+                var offset = 110;
+                if ($(this).data('offset') != undefined) offset = $(this).data('offset');
+                $('html, body').stop().animate({
+                    'scrollTop': $(target).offset().top - offset
+                }, 250, 'swing', function () {
+                    // window.location.hash = target;
+                });
             });
         });
 
@@ -42,6 +58,10 @@
             margin-bottom: 0;
             padding-bottom: 4px;
         }
+
+        .longtail {
+            height: 20%;
+        }
     </style>
 </head>
 <body>
@@ -66,6 +86,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#condition">Conditions</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#loop">Loops</a>
                 </li>
             </ul>
         </div>
@@ -118,7 +141,7 @@ e = True # 'true' is an error
             <pre>
                 <code class="javascript">
 let a = 1; // Or 'const a = 1;' to prevent re-assignment
-let b = 'Hello';
+let b = 'Hello'; // $b (etc) is allowed but uncommon
 let c = ['array','of','items'];
 let d = {key: 'value'};
 let e = true; // 'True' is an error
@@ -304,6 +327,43 @@ if (a === 42) {
 
         </div>
     </div>
+
+
+    <div class="row" id="loop">
+        <h2 class="col-sm-12">Loop in range</h2>
+        <div class="col-sm-4 block-php">
+            <pre>
+                <code class="php">
+for ($i=10; $i>0; $i--) {
+  print("$i green bottles, standing on a wall\n");
+}
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-python">
+            <pre>
+                <code class="python">
+for i in range(10,0,-1):
+  print(f"{i} green bottles, standing on a wall")
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-js">
+            <pre>
+                <code class="javascript">
+for (i=10; i>0; i--) {
+  console.log(i + " green bottles, standing on a wall");
+}
+                </code>
+            </pre>
+
+        </div>
+    </div>
+
+
+    <div class="longtail"></div>
 </div>
 </body>
 </html>
