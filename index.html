@@ -1,5 +1,6 @@
 <html>
 <head>
+    <meta charset="utf-8"/>
     <title>PHP - Python - Javascript Rosetta</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -15,12 +16,15 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
     <script>
+        // noinspection JSUnresolvedVariable
         hljs.configure({
             languages: ['php', 'python', 'javascript'],
             // classPrefix: ''
         });
+        // noinspection JSUnusedLocalSymbols
         document.addEventListener('DOMContentLoaded', (event) => {
             document.querySelectorAll('pre code').forEach((block) => {
+                // noinspection JSUnresolvedVariable
                 hljs.highlightBlock(block);
             });
         });
@@ -33,9 +37,6 @@
                 let target = this.hash;
                 e.preventDefault();
                 let offset = 100;
-                if ($(this).data('offset') != undefined) {
-                    offset = $(this).data('offset');
-                }
                 $('html, body').stop().animate({
                     'scrollTop': $(target).offset().top - offset
                 }, 250, 'swing');
@@ -115,7 +116,7 @@
                     <a class="nav-link" href="#function">Functions</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#condition">Conditions</a>
+                    <a class="nav-link" href="#condition">If… else</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"
@@ -128,8 +129,23 @@
                         <a class="dropdown-item" href="#loop-object">Loop map</a>
                     </div>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="#split-join">Split & join</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"
+                       data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                       aria-expanded="false">Arrays</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#array">Arrays</a>
+                        <a class="dropdown-item" href="#array-ops">Array Operations</a>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#class">Classes</a>
                 </li>
             </ul>
         </div>
@@ -326,7 +342,7 @@ increase(27, 15); // 42
     </div>
 
     <div class="row" id="condition">
-        <h2 class="col-sm-12">Conditions</h2>
+        <h2 class="col-sm-12">If… else</h2>
         <div class="col-sm-4 block-php">
             <pre>
                 <code class="php">
@@ -582,16 +598,160 @@ letters_again = csv.split(',')
 let letters = ['a','b','c','d','e']
 let alpha = letters.join('')
 let csv = letters.join(',')
-let letters_again = csv.split(',')
+let lettersAgain = csv.split(',')
                 </code>
             </pre>
         </div>
     </div>
+
+    <div class="row" id="array">
+        <h2 class="col-sm-12">Arrays</h2>
+        <div class="col-sm-4 block-php">
+            <pre>
+                <code class="php">
+$letters = ['a','b','c','d','e'];
+$letters[] = 'f';
+count($letters); // 6
+in_array('b', $letters); // true
+array_search('d', $letters); // 3
+array_slice($letters, 2, 3); // ['c','d','e']
+['a','b','c'] + ['d','e','f','g']; // ['a','b','c','g']
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-python">
+            <pre>
+                <code class="python">
+letters = ['a','b','c','d','e']
+letters.append('f')
+len(letters) # 6
+'b' in letters # True
+letters.index('d') # 3
+letters[2:3] # ['c']
+['a','b','c'] + ['d','e','f','g'] # ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-js">
+            <pre>
+                <code class="javascript">
+let letters = ['a','b','c','d','e'];
+letters.push('f');
+letters.length; // 6
+letters.includes('b'); // true
+letters.indexOf('d'); // 3
+letters.slice(2, 3); // ['c']
+['a','b','c'] + ['d','e','f','g']; // 'a,b,cd,e,f,g' ⚠️
+                </code>
+            </pre>
+        </div>
+    </div>
+
+    <div class="row" id="array-ops">
+        <h2 class="col-sm-12">Array Operations</h2>
+        <div class="col-sm-4 block-php">
+            <pre>
+                <code class="php">
+$letters = ['a','b','c','d','e'];
+array_map(
+  function ($l) { return strtoupper($l); },
+  $letters
+); // ['A','B','C','D','E','F']
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-python">
+            <pre>
+                <code class="python">
+letters = ['a','b','c','d','e']
+[l.upper() for l in letters] # ['A','B','C','D','E','F']
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-js">
+            <pre>
+                <code class="javascript">
+let letters = ['a','b','c','d','e'];
+letters.map(function(l) { return l.toUpperCase(); }); // ['A','B','C','D','E','F']
+                </code>
+            </pre>
+        </div>
+    </div>
+
+    <div class="row" id="class">
+        <h2 class="col-sm-12">Classes</h2>
+        <div class="col-sm-4 block-php">
+            <pre>
+                <code class="php">
+class Vehicle {
+  protected $wheels;
+
+  public function __construct($wheels = 4) {
+    $this->wheels = $wheels;
+  }
+
+  public function describe() {
+    print("Has {$this->wheels} wheels\n");
+  }
+}
+
+$car = new Vehicle(4);
+
+$car->describe();
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-python">
+            <pre>
+                <code class="python">
+class Vehicle:
+  def __init__(self, wheels = 4):
+    self.wheels = wheels
+
+  def describe(self):
+    print(f"Has {self.wheels} wheels")
+
+
+car = Vehicle(4)
+                    
+car.describe()
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-js">
+            <pre>
+                <code class="javascript">
+class Vehicle {
+
+  constructor(wheels = 4) {
+    this.wheels = wheels;
+  }
+
+  describe() {
+    console.log(`Has ${this.wheels} wheels`);
+  }
+}
+
+let car = new Vehicle(4);
+
+car.describe();
+                </code>
+            </pre>
+        </div>
+    </div>
+
 </div>
 
 <footer class="footer">
     <div class="container-fluid">
-        <div class="text-muted float-right">Created by <a href="https://twitter.com/parsingphase" class="text-muted">@parsingphase</a> </div>
+        <div class="text-muted float-right">Created by <a href="https://twitter.com/parsingphase" class="text-muted">@parsingphase</a>
+        </div>
     </div>
 </footer>
 </body>
