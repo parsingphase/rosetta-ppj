@@ -8,6 +8,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
     <script>
         hljs.configure({
             languages: ['php', 'python', 'javascript'],
@@ -20,23 +26,42 @@
         });
 
         $(document).ready(function () {
-            $('a.nav-link').on('click', function (e) {
-                var target = this.hash;
+            $('.nav-item a.nav-link, .nav-item a.dropdown-item').on('click', function (e) {
+                if ($(this).data('toggle')) {
+                    return; // no scrolling
+                }
+                let target = this.hash;
                 e.preventDefault();
-                var offset = 110;
-                if ($(this).data('offset') != undefined) offset = $(this).data('offset');
+                let offset = 100;
+                if ($(this).data('offset') != undefined) {
+                    offset = $(this).data('offset');
+                }
                 $('html, body').stop().animate({
                     'scrollTop': $(target).offset().top - offset
-                }, 250, 'swing', function () {
-                    // window.location.hash = target;
-                });
+                }, 250, 'swing');
             });
         });
 
     </script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <style>
-        .nav-spacer {
-            height: 100px;
+        .navbar-holder {
+            background-color: #ffffff;
+        }
+
+        .gh-link {
+            margin: 10px 15px;
+            font-size: 2em;
+        }
+
+        .container-fluid {
+            background-color: #ffffff;
+        }
+
+        .container-scrollable {
+            padding-top: 100px;
+            padding-bottom: 100px;
         }
 
         code {
@@ -59,14 +84,19 @@
             padding-bottom: 4px;
         }
 
-        .longtail {
-            height: 20%;
+        .footer .container-fluid {
+            background-color: #f5f5f5;
+            min-height: 50px;
+            padding: 15px 25px 15px 15px;
         }
     </style>
 </head>
 <body>
 
-<div class="fixed-top">
+<div class="fixed-top navbar-holder">
+    <div class="float-right gh-link"><a class="text-dark" href="https://github.com/parsingphase/rosetta-ppj"><i
+            class="fab fa-github"></i></a>
+    </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Rosetta PPJ</a>
 
@@ -87,8 +117,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#condition">Conditions</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#loop">Loops</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"
+                       data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                       aria-expanded="false">Loops</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#loop">Loop range</a>
+                        <a class="dropdown-item" href="#loop-array">Loop array natively</a>
+                        <a class="dropdown-item" href="#loop-array-index">Loop array by index</a>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -108,9 +145,7 @@
     </div>
 </div>
 
-<div class="nav-spacer"></div>
-
-<div class="container-fluid">
+<div class="container-fluid container-scrollable">
     <div class="row" id="assign">
         <h2 class="col-sm-12">Assignment</h2>
         <div class="col-sm-4 block-php">
@@ -328,7 +363,6 @@ if (a === 42) {
         </div>
     </div>
 
-
     <div class="row" id="loop">
         <h2 class="col-sm-12">Loop in range</h2>
         <div class="col-sm-4 block-php">
@@ -344,7 +378,7 @@ for ($i=10; $i>0; $i--) {
         <div class="col-sm-4 block-python">
             <pre>
                 <code class="python">
-for i in range(10,0,-1):
+for i in range(10, 0, -1):
   print(f"{i} green bottles, standing on a wall")
                 </code>
             </pre>
@@ -362,8 +396,83 @@ for (i=10; i>0; i--) {
         </div>
     </div>
 
+    <div class="row" id="loop-array">
+        <h2 class="col-sm-12">Loop array (natively)</h2>
+        <div class="col-sm-4 block-php">
+            <pre>
+                <code class="php">
+$colors = ['red', 'green', 'blue'];
+foreach ($colors as $color) {
+  print("I see a $color bottle\n");
+}
+                </code>
+            </pre>
 
-    <div class="longtail"></div>
+        </div>
+        <div class="col-sm-4 block-python">
+            <pre>
+                <code class="python">
+colors = ['red', 'green', 'blue']
+for color in colors:
+  print(f"I see a {color} bottle")
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-js">
+            <pre>
+                <code class="javascript">
+let colors = ['red', 'green', 'blue'];
+for (const color of colors) { // 'var' or 'let' can be used here
+  console.log(`I see a ${color} bottle`);
+}
+                </code>
+            </pre>
+
+        </div>
+    </div>
+
+    <div class="row" id="loop-array-index">
+        <h2 class="col-sm-12">Loop array (by index)</h2>
+        <div class="col-sm-4 block-php">
+            <pre>
+                <code class="php">
+$colors = ['red', 'green', 'blue'];
+for ($i=0; $i < count($colors); $i++) {
+  print("I see a ${colors[$i]} bottle\n");
+}
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-python">
+            <pre>
+                <code class="python">
+colors = ['red', 'green', 'blue']
+for i in range(0, len(colors)):
+  print(f"I see a {colors[i]} bottle")
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-js">
+            <pre>
+                <code class="javascript">
+let colors = ['red', 'green', 'blue'];
+for (let i=0; i < colors.length; i++) {
+  console.log(`I see a ${colors[i]} bottle`);
+}
+                </code>
+            </pre>
+
+        </div>
+    </div>
 </div>
+
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="text-muted float-right">Created by <a href="https://twitter.com/parsingphase" class="text-muted">@parsingphase</a> </div>
+    </div>
+</footer>
 </body>
 </html>

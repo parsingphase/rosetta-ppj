@@ -1,5 +1,9 @@
 # PPJ Rosetta
 
+## Usage:
+
+View the site at https://parsingphase.github.io/rosetta-ppj 
+
 ## Libraries: 
 
 - https://getbootstrap.com/docs/4.3
