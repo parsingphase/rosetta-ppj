@@ -51,6 +51,12 @@
             background-color: #ffffff;
         }
 
+        .nav-item-last {
+            padding-left: 10px;
+            margin-left: 30px;
+            border-left: solid lightgray 2px;
+        }
+
         .gh-link {
             margin: 10px 15px;
             font-size: 2em;
@@ -148,6 +154,13 @@
                     <a class="nav-link" href="#class">Classes</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="#project">Project env</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#repls">Interactive mode</a>
+                </li>
+
+                <li class="nav-item nav-item-last">
                     <a class="nav-link" href="#notes">Notes & FAQ</a>
                 </li>
             </ul>
@@ -702,9 +715,23 @@ class Vehicle {
   }
 }
 
-$car = new Vehicle(4);
 
-$car->describe();
+class FlyingVehicle extends Vehicle {
+  protected $wings;
+
+  public function setWings($wings) {
+    $this->wings = $wings;
+  }
+
+  public function describe() {
+    print("Has {$this->wheels} wheels and {$this->wings} wings\n");
+  }
+}
+
+$flyingCar = new FlyingVehicle(4);
+$flyingCar->setWings(2);
+$flyingCar->describe();
+
                 </code>
             </pre>
 
@@ -720,9 +747,16 @@ class Vehicle:
     print(f"Has {self.wheels} wheels")
 
 
-car = Vehicle(4)
+class FlyingVehicle(Vehicle):
+  def describe(self):
+    print(f"Has {self.wheels} wheels and {self.wings} wings")
 
-car.describe()
+  def set_wings(self, wings):
+    self.wings = wings
+
+flying_car = FlyingVehicle(4)
+flying_car.set_wings(2)
+flying_car.describe()
                 </code>
             </pre>
 
@@ -741,13 +775,114 @@ class Vehicle {
   }
 }
 
-let car = new Vehicle(4);
+class FlyingVehicle extends Vehicle {
+  setWings(wings) {
+    this.wings = wings;
+  }
 
-car.describe();
+  describe() {
+    console.log(`Has ${this.wheels} and ${this.wheels} wheels`);
+  }
+}
+
+
+let flyingCar = new FlyingVehicle(4);
+flyingCar.setWings(2);
+flyingCar.describe();
                 </code>
             </pre>
         </div>
     </div>
+
+
+    <div class="row" id="project">
+        <h2 class="col-sm-12">Single-project environments</h2>
+        <div class="col-sm-4 block-php">
+            <pre>
+                <code class="bash">
+# Create project (inside project dir)
+composer init
+# Install dependencies
+composer install
+# Add package
+composer require [--dev] some/package
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-python">
+            <pre>
+                <code class="bash">
+# Create / activate project (inside project dir)
+pipenv [--three] shell
+# Install dependencies
+pipenv install
+# Add package
+pipenv install [--dev] somepackage
+# Check project context
+pipenv --venv
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-js">
+            <pre>
+                <code class="bash">
+# Create project (inside project dir)
+npm init
+# Install dependencies
+npm install
+# Add package
+npm install --save[-dev] somepackage
+                </code>
+            </pre>
+        </div>
+    </div>
+
+
+    <div class="row" id="repls">
+        <h2 class="col-sm-12">Interactive mode / REPL</h2>
+        <div class="col-sm-4 block-php">
+            <pre>
+                <code class="bash">
+host$ php -a
+Interactive shell
+
+php > $x='foo';
+php > var_dump($x);
+string(3) "foo"
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-python">
+            <pre>
+                <code class="bash">
+host$ python3
+Python 3.7.2 (default, Feb 12 2019, 08:15:36)
+[Clang 10.0.0 (clang-1000.11.45.5)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> x='foo'
+>>> x
+'foo'
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-js">
+            <pre>
+                <code class="bash">
+host$ node --use-strict
+> let x='foo'
+undefined
+> x
+'foo'
+                </code>
+            </pre>
+        </div>
+    </div>
+
+    <!-- --------------------  --------------------  -------------------- -->
 
     <div class="row" id="notes">
         <h2 class="col-sm-12">Notes & FAQ</h2>
@@ -770,26 +905,31 @@ car.describe();
                     feel free, but the attribution must remain.
                 </dd>
                 <dt>Can you add [Language X]?</dt>
-                <dd>No, I (probably) don't use it. You can fork the project for your own use though, subject to the
+                <dd>No - I (probably) don't use it. You can fork the project for your own use though, subject to the
                     licence.
                 </dd>
                 <dt>Can you add [Feature Y]?</dt>
                 <dd>Possibly. <a href="https://github.com/parsingphase/rosetta-ppj/issues">Open an issue</a>, but don't
                     rely on a fast turnaround.
                     Or add the feature yourself and <a href="https://github.com/parsingphase/rosetta-ppj/pulls">create a
-                        pull request.</a>
+                        pull request</a>.
+                </dd>
+                <dt>Something's incorrect</dt>
+                <dd>Drop me a line or open an issue or PR. The code has all been checked in a
+                    <abbr title="Read-Execute-Print Loop">REPL</abbr> but copy/paste errors
+                    can occur.
                 </dd>
                 <dt>Hasn't this been done before?</dt>
                 <dd>So far as I'm aware, not in quite this three-way, feature-by-feature format, but <a
                         href="http://www.rosettacode.org">Rosetta Code</a>
                     and <a href="http://www.99-bottles-of-beer.net">99 Bottles</a> cover similar areas. No code from
-                    those sites has been used here,
-                    however.
+                    those sites has been used here, however.
                 </dd>
                 <dt>Do you really use two-space tabs?</dt>
                 <dd>No! But adjustments have to be made to fit three languages next to each other.</dd>
                 <dt>Credit</dt>
-                <dd>This project would be far less elegant without the availability of <a href="https://getbootstrap.com">Bootstrap</a> and
+                <dd>This project would be far less elegant without the availability of <a
+                        href="https://getbootstrap.com">Bootstrap</a> and
                     <a href="https://highlightjs.org">Highlight.js</a></dd>
             </dl>
         </div>
