@@ -122,7 +122,7 @@
                     <a class="nav-link" href="#function">Functions</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#condition">If… else</a>
+                    <a class="nav-link" href="#flow">Control flow</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"
@@ -153,6 +153,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#class">Classes</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#exception">Exceptions</a>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="#project">Project env</a>
                 </li>
@@ -189,7 +193,7 @@
                 <code class="php">
 $a = 1;
 $b = 'Hello';
-$c = ['array','of','items'];
+$c = ['array','of','items']; // array
 $d = ['key' => 'value']; // Uses arrays as dictionaries
 $e = true; // 'True' also accepted
                 </code>
@@ -201,8 +205,8 @@ $e = true; // 'True' also accepted
                 <code class="python">
 a = 1
 b = 'Hello'
-c = ['array','of','items']
-d = {'key': 'value'}
+c = ['array','of','items'] # list
+d = {'key': 'value'} # dict
 e = True # 'true' is an error
                 </code>
             </pre>
@@ -213,8 +217,8 @@ e = True # 'true' is an error
                 <code class="javascript">
 let a = 1; // Or 'const a = 1;' to prevent re-assignment
 let b = 'Hello'; // $b (etc) is allowed but uncommon
-let c = ['array','of','items'];
-let d = {key: 'value'};
+let c = ['array','of','items']; // array
+let d = {key: 'value'}; // anonymous object
 let e = true; // 'True' is an error
                 </code>
             </pre>
@@ -357,8 +361,8 @@ increase(27, 15); // 42
         </div>
     </div>
 
-    <div class="row" id="condition">
-        <h2 class="col-sm-12">If… else</h2>
+    <div class="row" id="flow">
+        <h2 class="col-sm-12">Control Flow</h2>
         <div class="col-sm-4 block-php">
             <pre>
                 <code class="php">
@@ -368,6 +372,21 @@ if ($a === 42) {
   print('Too high!');
 } else {
   print('Too low!');
+}
+
+
+switch($whichThing) {
+  case 'thing1':
+    handleThing1();
+    break;
+
+  case 'thing2':
+    handleThing2();
+    break;
+
+  default:
+    panic();
+    break;
 }
                 </code>
             </pre>
@@ -382,6 +401,10 @@ elif a > 42:
   print('Too high!')
 else:
   print('Too low!')
+
+
+
+# Python has no switch/case construct, use if/elif…/else
                 </code>
             </pre>
 
@@ -395,6 +418,21 @@ if (a === 42) {
   console.log('Too high!');
 } else {
   console.log('Too low!');
+}
+
+
+switch(whichThing) {
+    case 'thing1':
+        handleThing1();
+        break;
+
+    case 'thing2':
+        handleThing2();
+        break;
+
+    default:
+        panic();
+        break;
 }
                 </code>
             </pre>
@@ -419,6 +457,7 @@ for ($i=10; $i>0; $i--) {
                 <code class="python">
 for i in range(10, 0, -1):
   print(f"{i} green bottles, standing on a wall")
+
                 </code>
             </pre>
 
@@ -446,7 +485,6 @@ foreach ($colors as $color) {
 }
                 </code>
             </pre>
-
         </div>
         <div class="col-sm-4 block-python">
             <pre>
@@ -454,9 +492,9 @@ foreach ($colors as $color) {
 colors = ['red', 'green', 'blue']
 for color in colors:
   print(f"I see a {color} bottle")
+
                 </code>
             </pre>
-
         </div>
         <div class="col-sm-4 block-js">
             <pre>
@@ -467,7 +505,6 @@ for (const color of colors) { // 'var' or 'let' can be used here
 }
                 </code>
             </pre>
-
         </div>
     </div>
 
@@ -482,7 +519,6 @@ for ($i=0; $i < count($colors); $i++) {
 }
                 </code>
             </pre>
-
         </div>
         <div class="col-sm-4 block-python">
             <pre>
@@ -490,6 +526,7 @@ for ($i=0; $i < count($colors); $i++) {
 colors = ['red', 'green', 'blue']
 for i in range(0, len(colors)):
   print(f"I see a {colors[i]} bottle")
+
                 </code>
             </pre>
 
@@ -526,6 +563,7 @@ for ($i=0; $i < count($colors); $i++) {
 colors = ['red', 'green', 'blue']
 for (i, color) in enumerate(colors):
   print(f"{i}) I see a {colors[i]} bottle")
+
                 </code>
             </pre>
 
@@ -564,6 +602,7 @@ foreach ($things as $thing => $color) {
 things = { 'apple': 'red', 'tree': 'green', 'bottle': 'blue'}
 for (thing, color) in things.items():
   print(f"I see a {color} {thing}")
+
                 </code>
             </pre>
 
@@ -731,7 +770,6 @@ class FlyingVehicle extends Vehicle {
 $flyingCar = new FlyingVehicle(4);
 $flyingCar->setWings(2);
 $flyingCar->describe();
-
                 </code>
             </pre>
 
@@ -794,6 +832,7 @@ flyingCar.describe();
         </div>
     </div>
 
+    <!-- --------------------  CLI  -------------------- -->
 
     <div class="row" id="project">
         <h2 class="col-sm-12">Single-project environments</h2>
@@ -882,6 +921,42 @@ undefined
         </div>
     </div>
 
+    <div class="row" id="exception">
+        <h2 class="col-sm-12">Exceptions</h2>
+        <div class="col-sm-4 block-php">
+            <pre>
+                <code class="php">
+try {
+    throw new Exception('Boom!');
+} catch (Exception $e) {
+    print('Boom.');
+}
+                </code>
+            </pre>
+        </div>
+        <div class="col-sm-4 block-python">
+            <pre>
+                <code class="python">
+try:
+  raise Exception('Boom!')
+except Exception as e:
+ print('Boom.')
+
+                </code>
+            </pre>
+        </div>
+        <div class="col-sm-4 block-js">
+            <pre>
+                <code class="javascript">
+try {
+  throw new Exception('Boom!');
+} catch (e) {
+  console.log('Boom.');
+}
+                </code>
+            </pre>
+        </div>
+    </div>
     <!-- --------------------  --------------------  -------------------- -->
 
     <div class="row" id="notes">
