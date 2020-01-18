@@ -269,7 +269,7 @@ a+=2; //4
 a--; //3
 
 a = 4 / 2 // 2.0
-                    
+
 a = 3 % 2 // 1 (modulo)
 a = 3 ** 2 // 9 (power)
                 </code>
@@ -617,7 +617,7 @@ for (thing, color) in things.items():
 const things = { apple: 'red', tree: 'green', bottle: 'blue'}
 for (let thing in things) {
   if(things.hasOwnProperty(thing)) {
-    console.log(`I see a ${things[thing]} bottle`);
+    console.log(`I see a ${things[thing]} ${thing}`);
   }
 }
                 </code>
@@ -822,7 +822,7 @@ class FlyingVehicle extends Vehicle {
   }
 
   describe() {
-    console.log(`Has ${this.wheels} and ${this.wheels} wheels`);
+    console.log(`Has ${this.wheels} and ${this.wings} wings`);
   }
 }
 
