@@ -151,8 +151,13 @@
                 </li>
 
                 <li class="nav-item">
+                    <a class="nav-link" href="#truthiness">Truthiness</a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link" href="#class">Classes</a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="#exception">Exceptions</a>
                 </li>
@@ -739,6 +744,75 @@ letters.map(function(l) { return l.toUpperCase(); }); // ['A','B','C','D','E','F
             </pre>
         </div>
     </div>
+
+
+
+
+    <div class="row" id="truthiness">
+        <h2 class="col-sm-12">Truthiness</h2>
+        <div class="col-sm-4 block-php">
+            <pre>
+                <code class="php">
+function isTruthy($var) {
+    echo $var ? 'true': 'false';
+}
+
+isTruthy(true); // true
+isTruthy(0); // false
+isTruthy(1); // true
+isTruthy('0'); // false !
+isTruthy([]); // false
+isTruthy([0]); // true
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-python">
+            <pre>
+                <code class="python">
+def isTruthy(var): 
+    print("true" if var else "false")
+
+
+isTruthy(True) # true
+isTruthy(0) # false
+isTruthy(1) # true
+isTruthy('0') # true
+isTruthy([]) # false
+isTruthy([0]) # true
+isTruthy({}) # false
+isTruthy(set()) # false
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-js">
+            <pre>
+                <code class="javascript">
+function isTruthy(myVar) { 
+    console.log(myVar ? 'true' : 'false')
+}
+
+isTruthy(true) // true
+isTruthy(0) // false
+isTruthy(1) // true
+isTruthy('0') // true
+isTruthy([]) // false
+isTruthy([0]) // true
+isTruthy({}) // true !
+                </code>
+            </pre>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
 
     <div class="row" id="class">
         <h2 class="col-sm-12">Classes</h2>
