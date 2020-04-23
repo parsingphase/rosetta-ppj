@@ -70,7 +70,7 @@
 
             $('.block-' + lang).removeClass(["col-visible"]).hide();
             $('.block-' + visibleLangs[1]).addClass('alternate');
-            let url = (window.location + '').replace(/\?.*$/, '?' + visibleLangs.join(','));
+            let url = (window.location + '').replace(/\??.*$/, '?' + visibleLangs.join(','));
             history.pushState({}, '', url);
         }
 
