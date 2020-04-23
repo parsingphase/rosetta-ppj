@@ -45,6 +45,10 @@
                 }
                 let target = this.hash;
                 e.preventDefault();
+
+                let url = (window.location + '').replace(/#?.*$/, target);
+                history.pushState({}, '', url);
+
                 let offset = 100;
                 $('html, body').stop().animate({
                     'scrollTop': $(target).offset().top - offset
@@ -71,6 +75,9 @@
             $('.block-' + lang).removeClass(["col-visible"]).hide();
             $('.block-' + visibleLangs[1]).addClass('alternate');
             let url = (window.location + '').replace(/\??.*$/, '?' + visibleLangs.join(','));
+            if (window.location.hash) {
+                url += window.location.hash;
+            }
             history.pushState({}, '', url);
         }
 
@@ -568,19 +575,23 @@ if (a == 42) {
   System.out.println("Too low!"); // or single statement!
 
 
-String whichThing=""; // must not be null for switch
-switch(whichThing) { // switch String, integer types, enums only
-    case "thing1":
-        handler.handleThing1();
-        break;
+// switch non-null String, integer types, enums only
+String whichThing="";
+switch(whichThing) {
+  case "thing1": {
+    handler.handleThing1();
+    break;
+  }
 
-    case "thing2":
-        handler.handleThing2();
-        break;
+  case "thing2": {
+    handler.handleThing2();
+    break;
+  }
 
-    default:
-        handler.panic();
-        break;
+  default: {
+    handler.panic();
+    break;
+  }
 }
                 </code>
             </pre>
@@ -968,11 +979,11 @@ letters.map(function(l) { return l.toUpperCase(); }); // ['A','B','C','D','E','F
         </div>
     </div>
 
-<!-- -------------- TRUTHINESS ------------------ -->
+    <!-- -------------- TRUTHINESS ------------------ -->
 
-<div class="row" id="truthiness">
-    <h2 class="col-sm-12">Truthiness</h2>
-    <div class="col-sm-4 block-php">
+    <div class="row" id="truthiness">
+        <h2 class="col-sm-12">Truthiness</h2>
+        <div class="col-sm-4 block-php">
             <pre>
                 <code class="php">
 function isTruthy($var) {
@@ -988,8 +999,8 @@ isTruthy([0]); // true
                 </code>
             </pre>
 
-    </div>
-    <div class="col-sm-4 block-python">
+        </div>
+        <div class="col-sm-4 block-python">
             <pre>
                 <code class="python">
 def isTruthy(var): 
@@ -1007,8 +1018,8 @@ isTruthy(set()) # false
                 </code>
             </pre>
 
-    </div>
-    <div class="col-sm-4 block-js">
+        </div>
+        <div class="col-sm-4 block-js">
             <pre>
                 <code class="javascript">
 function isTruthy(myVar) { 
@@ -1024,21 +1035,21 @@ isTruthy([0]) // true
 isTruthy({}) // true !
                 </code>
             </pre>
-    </div>
-    <div class="col-sm-4 block-java">
+        </div>
+        <div class="col-sm-4 block-java">
             <pre>
                 <code class="java">
 // Only booleans are truthy / falsy
                 </code>
             </pre>
+        </div>
     </div>
-</div>
 
-<!-- -------------- CLASSES ------------------ -->
+    <!-- -------------- CLASSES ------------------ -->
 
-<div class="row" id="class">
-    <h2 class="col-sm-12">Classes</h2>
-    <div class="col-sm-4 block-php">
+    <div class="row" id="class">
+        <h2 class="col-sm-12">Classes</h2>
+        <div class="col-sm-4 block-php">
             <pre>
                 <code class="php">
 class Vehicle {
@@ -1066,14 +1077,15 @@ class FlyingVehicle extends Vehicle {
   }
 }
 
+
 $flyingCar = new FlyingVehicle(4);
 $flyingCar->setWings(2);
 $flyingCar->describe();
                 </code>
             </pre>
 
-    </div>
-    <div class="col-sm-4 block-python">
+        </div>
+        <div class="col-sm-4 block-python">
             <pre>
                 <code class="python">
 class Vehicle:
@@ -1085,11 +1097,12 @@ class Vehicle:
 
 
 class FlyingVehicle(Vehicle):
+    def set_wings(self, wings):
+    self.wings = wings
+
   def describe(self):
     print(f"Has {self.wheels} wheels and {self.wings} wings")
 
-  def set_wings(self, wings):
-    self.wings = wings
 
 flying_car = FlyingVehicle(4)
 flying_car.set_wings(2)
@@ -1097,8 +1110,8 @@ flying_car.describe()
                 </code>
             </pre>
 
-    </div>
-    <div class="col-sm-4 block-js">
+        </div>
+        <div class="col-sm-4 block-js">
             <pre>
                 <code class="javascript">
 class Vehicle {
@@ -1128,14 +1141,62 @@ flyingCar.setWings(2);
 flyingCar.describe();
                 </code>
             </pre>
+        </div>
+        <div class="col-sm-4 block-java">
+            <pre>
+                <code class="java">
+public class Vehicle {
+  protected int wheels = 4;
+
+  public Vehicle() {
+  }
+
+  public Vehicle(int wheels) {
+    this.wheels = wheels; // "this" optional
+  }
+
+  public void describe() {
+    System.out.printf("Has %d wheels\n", wheels);
+  }
+}
+
+
+public class FlyingVehicle extends Vehicle {
+  protected int wings = 2;
+
+  public void setWings(int wings) {
+    this.wings = wings;
+  }
+
+  @Override
+  public void describe() {
+    System.out.printf("Has %d wheels and %d wings\n", wheels, wings);
+  }
+
+  public FlyingVehicle(int wheels) {
+    super(wheels);
+  }
+
+  public FlyingVehicle(int wheels, int wings) {
+    super(wheels);
+    this.wings = wings;
+  }
+}
+
+
+FlyingVehicle flyingCar = new FlyingVehicle(4);
+flyingCar.setWings(2);
+flyingCar.describe();
+                </code>
+            </pre>
+        </div>
     </div>
-</div>
 
-<!-- --------------------  PROJECT  -------------------- -->
+    <!-- --------------------  PROJECT  -------------------- -->
 
-<div class="row" id="project">
-    <h2 class="col-sm-12">Single-project environments</h2>
-    <div class="col-sm-4 block-php">
+    <div class="row" id="project">
+        <h2 class="col-sm-12">Single-project environments</h2>
+        <div class="col-sm-4 block-php">
             <pre>
                 <code class="bash">
 # Create project (inside project dir)
@@ -1147,8 +1208,8 @@ composer require [--dev] some/package
                 </code>
             </pre>
 
-    </div>
-    <div class="col-sm-4 block-python">
+        </div>
+        <div class="col-sm-4 block-python">
             <pre>
                 <code class="bash">
 # Create / activate project (inside project dir)
@@ -1162,8 +1223,8 @@ pipenv --venv
                 </code>
             </pre>
 
-    </div>
-    <div class="col-sm-4 block-js">
+        </div>
+        <div class="col-sm-4 block-js">
             <pre>
                 <code class="bash">
 # Create project (inside project dir)
@@ -1174,14 +1235,21 @@ npm install
 npm install --save[-dev] somepackage
                 </code>
             </pre>
+        </div>
+        <div class="col-sm-4 block-java">
+            <pre>
+                <code class="bash">
+# n/a
+                </code>
+            </pre>
+        </div>
     </div>
-</div>
 
-<!-- --------------------  REPL  -------------------- -->
+    <!-- --------------------  REPL  -------------------- -->
 
-<div class="row" id="repls">
-    <h2 class="col-sm-12">Interactive mode / REPL</h2>
-    <div class="col-sm-4 block-php">
+    <div class="row" id="repls">
+        <h2 class="col-sm-12">Interactive mode / REPL</h2>
+        <div class="col-sm-4 block-php">
             <pre>
                 <code class="bash">
 host$ php -a
@@ -1193,8 +1261,8 @@ string(3) "foo"
                 </code>
             </pre>
 
-    </div>
-    <div class="col-sm-4 block-python">
+        </div>
+        <div class="col-sm-4 block-python">
             <pre>
                 <code class="bash">
 host$ python3
@@ -1207,8 +1275,8 @@ Type "help", "copyright", "credits" or "license" for more information.
                 </code>
             </pre>
 
-    </div>
-    <div class="col-sm-4 block-js">
+        </div>
+        <div class="col-sm-4 block-js">
             <pre>
                 <code class="bash">
 host$ node --use-strict
@@ -1218,8 +1286,8 @@ undefined
 'foo'
                 </code>
             </pre>
-    </div>
-    <div class="col-sm-4 block-java">
+        </div>
+        <div class="col-sm-4 block-java">
             <pre>
                 <code class="java"># Requires JDK 9+
 host$ jshell
@@ -1229,12 +1297,14 @@ jshell> x
 x ==> "foo"
                 </code>
             </pre>
+        </div>
     </div>
-</div>
 
-<div class="row" id="exception">
-    <h2 class="col-sm-12">Exceptions</h2>
-    <div class="col-sm-4 block-php">
+    <!-- --------------------  EXCEPTIONS  -------------------- -->
+
+    <div class="row" id="exception">
+        <h2 class="col-sm-12">Exceptions</h2>
+        <div class="col-sm-4 block-php">
             <pre>
                 <code class="php">
 try {
@@ -1244,8 +1314,8 @@ try {
 }
                 </code>
             </pre>
-    </div>
-    <div class="col-sm-4 block-python">
+        </div>
+        <div class="col-sm-4 block-python">
             <pre>
                 <code class="python">
 try:
@@ -1255,8 +1325,8 @@ except Exception as e:
 
                 </code>
             </pre>
-    </div>
-    <div class="col-sm-4 block-js">
+        </div>
+        <div class="col-sm-4 block-js">
             <pre>
                 <code class="javascript">
 try {
@@ -1266,60 +1336,71 @@ try {
 }
                 </code>
             </pre>
+        </div>
+        <div class="col-sm-4 block-java">
+            <pre>
+                <code class="java">
+try {
+    throw new Exception("Boom!");
+} catch (Exception e) {
+    System.out.println("Boom.");
+}
+                </code>
+            </pre>
+        </div>
     </div>
-</div>
-<!-- --------------------  --------------------  -------------------- -->
+    <!-- --------------------  --------------------  -------------------- -->
 
-<div class="row" id="notes">
-    <h2 class="col-sm-12">Notes & FAQ</h2>
-    <div class="col-sm-12">
-        <dl>
-            <dt>What's this for?</dt>
-            <dd>It's a memory aid for myself for I'm working in these three languages in quick succession and
-                can't remember the exact syntax of a given feature in one of them.
-            </dd>
-            <dt>Caveat</dt>
-            <dd>While all code should be functional and idiomatic, it won't usually be the only way to do
-                something in a given language. As this is not intended as an exhaustive "learn to code"
-                resource, there are few explanations or outputs.
-            </dd>
-            <dt>Can I use this?</dt>
-            <dd>Sure, but please refer to the <a rel="license"
-                                                 href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC
-                BY-NC-SA 4.0 License</a>.
-                Note that by "non-commercial" I mean "don't sell it". If you want to use it at work or in a course,
-                feel free, but the attribution must remain.
-            </dd>
-            <dt>Can you add [Language X]?</dt>
-            <dd>No - I (probably) don't use it. You can fork the project for your own use though, subject to the
-                licence.
-            </dd>
-            <dt>Can you add [Feature Y]?</dt>
-            <dd>Possibly. <a href="https://github.com/parsingphase/rosetta-ppj/issues">Open an issue</a>, but don't
-                rely on a fast turnaround.
-                Or add the feature yourself and <a href="https://github.com/parsingphase/rosetta-ppj/pulls">create a
-                    pull request</a>.
-            </dd>
-            <dt>Something's incorrect</dt>
-            <dd>Drop me a line or open an issue or PR. The code has all been checked in a
-                <abbr title="Read-Execute-Print Loop">REPL</abbr> but copy/paste errors
-                can occur.
-            </dd>
-            <dt>Hasn't this been done before?</dt>
-            <dd>So far as I'm aware, not in quite this three-way, feature-by-feature format, but <a
-                    href="http://www.rosettacode.org">Rosetta Code</a>
-                and <a href="http://www.99-bottles-of-beer.net">99 Bottles</a> cover similar areas. No code from
-                those sites has been used here, however.
-            </dd>
-            <dt>Do you really use two-space tabs?</dt>
-            <dd>No! But adjustments have to be made to fit three languages next to each other.</dd>
-            <dt>Credit</dt>
-            <dd>This project would be far less elegant without the availability of <a
-                    href="https://getbootstrap.com">Bootstrap</a> and
-                <a href="https://highlightjs.org">Highlight.js</a></dd>
-        </dl>
+    <div class="row" id="notes">
+        <h2 class="col-sm-12">Notes & FAQ</h2>
+        <div class="col-sm-12">
+            <dl>
+                <dt>What's this for?</dt>
+                <dd>It's a memory aid for myself for I'm working in these three languages in quick succession and
+                    can't remember the exact syntax of a given feature in one of them.
+                </dd>
+                <dt>Caveat</dt>
+                <dd>While all code should be functional and idiomatic, it won't usually be the only way to do
+                    something in a given language. As this is not intended as an exhaustive "learn to code"
+                    resource, there are few explanations or outputs.
+                </dd>
+                <dt>Can I use this?</dt>
+                <dd>Sure, but please refer to the <a rel="license"
+                                                     href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC
+                    BY-NC-SA 4.0 License</a>.
+                    Note that by "non-commercial" I mean "don't sell it". If you want to use it at work or in a course,
+                    feel free, but the attribution must remain.
+                </dd>
+                <dt>Can you add [Language X]?</dt>
+                <dd>No - I (probably) don't use it. You can fork the project for your own use though, subject to the
+                    licence.
+                </dd>
+                <dt>Can you add [Feature Y]?</dt>
+                <dd>Possibly. <a href="https://github.com/parsingphase/rosetta-ppj/issues">Open an issue</a>, but don't
+                    rely on a fast turnaround.
+                    Or add the feature yourself and <a href="https://github.com/parsingphase/rosetta-ppj/pulls">create a
+                        pull request</a>.
+                </dd>
+                <dt>Something's incorrect</dt>
+                <dd>Drop me a line or open an issue or PR. The code has all been checked in a
+                    <abbr title="Read-Execute-Print Loop">REPL</abbr> but copy/paste errors
+                    can occur.
+                </dd>
+                <dt>Hasn't this been done before?</dt>
+                <dd>So far as I'm aware, not in quite this three-way, feature-by-feature format, but <a
+                        href="http://www.rosettacode.org">Rosetta Code</a>
+                    and <a href="http://www.99-bottles-of-beer.net">99 Bottles</a> cover similar areas. No code from
+                    those sites has been used here, however.
+                </dd>
+                <dt>Do you really use two-space tabs?</dt>
+                <dd>No! But adjustments have to be made to fit three languages next to each other.</dd>
+                <dt>Credit</dt>
+                <dd>This project would be far less elegant without the availability of <a
+                        href="https://getbootstrap.com">Bootstrap</a> and
+                    <a href="https://highlightjs.org">Highlight.js</a></dd>
+            </dl>
+        </div>
     </div>
-</div>
 
 
 </div>
