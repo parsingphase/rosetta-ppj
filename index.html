@@ -16,6 +16,8 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
     <script>
+        const langs = ['php', 'python', 'js', 'java'];
+
         // noinspection JSUnresolvedVariable
         hljs.configure({
             languages: ['php', 'python', 'javascript'],
@@ -29,6 +31,13 @@
             });
         });
 
+        function hideLangByQueryString() {
+            let showLangs = window.location.search.substr(1).split(','); // skip the ? and split
+            showLangs = showLangs.slice(0, langs.length - 1);
+            let hiddenLangs = langs.filter(x => !showLangs.includes(x));
+            hideLang(hiddenLangs[hiddenLangs.length - 1]); // hide last one if more than one!
+        }
+
         $(document).ready(function () {
             $('.nav-item a.nav-link, .nav-item a.dropdown-item').on('click', function (e) {
                 if ($(this).data('toggle')) {
@@ -41,7 +50,29 @@
                     'scrollTop': $(target).offset().top - offset
                 }, 250, 'swing');
             });
+
+            hideLangByQueryString();
         });
+
+        function hideLang(lang) {
+            let visibleLangs = [];
+            for (let l of langs) {
+                if (l !== lang) {
+                    visibleLangs.push(l);
+                }
+            }
+
+            $('.alternate').removeClass(["alternate"]);
+
+            for (let vl of visibleLangs) {
+                $('.block-' + vl).show().addClass("col-visible");
+            }
+
+            $('.block-' + lang).removeClass(["col-visible"]).hide();
+            $('.block-' + visibleLangs[1]).addClass('alternate');
+            let url = (window.location + '').replace(/\?.*$/, '?' + visibleLangs.join(','));
+            history.pushState({}, '', url);
+        }
 
     </script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
@@ -80,7 +111,16 @@
             background-color: #fff;
         }
 
-        .block-python, .block-python h1 {
+        h1 span.hideControl {
+            font-size: 0.5em;
+            color: #888;
+        }
+
+        h1 span.hideControl a {
+            color: #888;
+        }
+
+        .alternate, .alternate h1 {
             background-color: #f4f4f4;
         }
 
@@ -96,6 +136,7 @@
             min-height: 50px;
             padding: 15px 25px 15px 15px;
         }
+
     </style>
 </head>
 <body>
@@ -178,17 +219,23 @@
     <div class="container-fluid position-fixed">
         <div class="row">
             <div class="col-sm-4 block-php">
-                <h1>PHP 7+</h1>
+                <h1>PHP 7+ <span class="hideControl">[<a href="javascript:hideLang('php');">hide</a>]</span></h1>
             </div>
             <div class="col-sm-4 block-python">
-                <h1>Python 3+</h1>
+                <h1>Python 3+ <span class="hideControl">[<a href="javascript:hideLang('python');">hide</a>]</span></h1>
             </div>
             <div class="col-sm-4 block-js">
-                <h1>Javascript (ECMA 6+)</h1>
+                <h1>Javascript (ECMA 6+) <span class="hideControl">[<a
+                        href="javascript:hideLang('js');">hide</a>]</span></h1>
+            </div>
+            <div class="col-sm-4 block-java">
+                <h1>Java 8+ <span class="hideControl">[<a href="javascript:hideLang('java');">hide</a>]</span></h1>
             </div>
         </div>
     </div>
 </div>
+
+<!-- -------------- ASSIGNMENT ------------------ -->
 
 <div class="container-fluid container-scrollable">
     <div class="row" id="assign">
@@ -229,7 +276,25 @@ let e = true; // 'True' is an error
             </pre>
 
         </div>
+
+        <div class="col-sm-4 block-java">
+            <pre>
+                <code class="java">
+int a = 1; Integer aa = new Integer(2);
+String b = "Hello";
+String[] c = { "array", "of", "items" }; // array
+
+boolean e = true; // 'True' is an error
+                </code>
+            </pre>
+
+        </div>
+
+
     </div>
+
+    <!-- -------------- ARITHMETIC ------------------ -->
+
 
     <div class="row" id="arithmetic">
         <h2 class="col-sm-12">Arithmetic</h2>
@@ -281,7 +346,27 @@ a = 3 ** 2 // 9 (power)
             </pre>
 
         </div>
+        <div class="col-sm-4 block-java">
+            <pre>
+                <code class="java">
+int a = 1;
+a++; //2
+a+=2; //4
+a--; //3
+
+a = 5 / 2 // 2
+double d = 5.0 / 2 // 2.5
+
+a = 3 % 2 // 1 (modulo)
+a = 3 ** 2 // 9 (power)
+                </code>
+            </pre>
+
+        </div>
     </div>
+
+
+    <!-- -------------- STRING ------------------ -->
 
     <div class="row" id="string">
         <h2 class="col-sm-12">Strings</h2>
@@ -324,7 +409,23 @@ let shout = message.toUpperCase();
             </pre>
 
         </div>
+        <div class="col-sm-4 block-java">
+            <pre>
+                <code class="java">
+String a = "Hello" + " World";
+
+String greeting = "Hello";
+String subject = "World";
+String message = String.format("%s %s", greeting, subject);
+String shout = message.toUpperCase();
+                </code>
+            </pre>
+
+        </div>
     </div>
+
+
+    <!-- -------------- FUNCTION ------------------ -->
 
     <div class="row" id="function">
         <h2 class="col-sm-12">Functions</h2>
@@ -367,7 +468,17 @@ increase(27, 15); // 42
             </pre>
 
         </div>
+        <div class="col-sm-4 block-java">
+            <pre>
+                <code class="java">
+// Functions outside of classes are not supported
+                </code>
+            </pre>
+
+        </div>
     </div>
+
+    <!-- -------------- FLOW ------------------ -->
 
     <div class="row" id="flow">
         <h2 class="col-sm-12">Control Flow</h2>
@@ -446,14 +557,45 @@ switch(whichThing) {
             </pre>
 
         </div>
+        <div class="col-sm-4 block-java">
+            <pre>
+                <code class="java">int a;
+if (a == 42) {
+  System.out.println("You have the answer");
+} else if (a > 42) {
+  System.out.println("Too high!"); // block statement
+} else
+  System.out.println("Too low!"); // or single statement!
+
+
+String whichThing=""; // must not be null for switch
+switch(whichThing) { // switch String, integer types, enums only
+    case "thing1":
+        handler.handleThing1();
+        break;
+
+    case "thing2":
+        handler.handleThing2();
+        break;
+
+    default:
+        handler.panic();
+        break;
+}
+                </code>
+            </pre>
+
+        </div>
     </div>
+
+    <!-- -------------- LOOP IN RANGE ------------------ -->
 
     <div class="row" id="loop">
         <h2 class="col-sm-12">Loop in range</h2>
         <div class="col-sm-4 block-php">
             <pre>
                 <code class="php">
-for ($i=10; $i>0; $i--) {
+for ($i = 10; $i > 0; $i--) {
   print("$i green bottles, standing on a wall\n");
 }
                 </code>
@@ -473,8 +615,18 @@ for i in range(10, 0, -1):
         <div class="col-sm-4 block-js">
             <pre>
                 <code class="javascript">
-for (i=10; i>0; i--) {
+for (i = 10; i > 0; i--) {
   console.log(i + " green bottles, standing on a wall");
+}
+                </code>
+            </pre>
+
+        </div>
+        <div class="col-sm-4 block-java">
+            <pre>
+                <code class="java">
+for (int i = 10; i > 0; i--) {
+  System.out.println(i + " green bottles, standing on a wall");
 }
                 </code>
             </pre>
@@ -482,6 +634,7 @@ for (i=10; i>0; i--) {
         </div>
     </div>
 
+    <!-- -------------- LOOP ARRAY NATIVELY ------------------ -->
     <div class="row" id="loop-array">
         <h2 class="col-sm-12">Loop array (natively)</h2>
         <div class="col-sm-4 block-php">
@@ -514,7 +667,19 @@ for (const color of colors) { // 'var' or 'let' can be used here
                 </code>
             </pre>
         </div>
+        <div class="col-sm-4 block-java">
+            <pre>
+                <code class="java">
+String[] colors = {"red", "green", "blue"};
+for (String color: colors) {
+  System.out.printf("I see a %s bottle\n", color);
+}
+                </code>
+            </pre>
+        </div>
     </div>
+
+    <!-- -------------- LOOP INDEX ------------------ -->
 
     <div class="row" id="loop-array-index">
         <h2 class="col-sm-12">Loop array (by index)</h2>
@@ -550,7 +715,20 @@ for (let i in colors) {
             </pre>
 
         </div>
+        <div class="col-sm-4 block-java">
+            <pre>
+                <code class="java">
+String[] colors = {"red", "green", "blue"};
+for (int i =0 ; i < colors.length; i++) {
+  System.out.printf("I see a %s bottle\n", colors[i]);
+}
+                </code>
+            </pre>
+
+        </div>
     </div>
+
+    <!-- -------------- LOOP ARRAY INDEX ------------------ -->
 
     <div class="row" id="loop-array-with-index">
         <h2 class="col-sm-12">Loop array (with index)</h2>
@@ -574,7 +752,6 @@ for (i, color) in enumerate(colors):
 
                 </code>
             </pre>
-
         </div>
         <div class="col-sm-4 block-js">
             <pre>
@@ -585,9 +762,20 @@ for (let i=0; i < colors.length; i++) {
 }
                 </code>
             </pre>
-
+        </div>
+        <div class="col-sm-4 block-java">
+            <pre>
+                <code class="java">
+String[] colors = {"red", "green", "blue"};
+for (int i =0 ; i < colors.length; i++) {
+  System.out.printf("%d) I see a %s bottle\n", i, colors[i]);
+}
+                </code>
+            </pre>
         </div>
     </div>
+
+    <!-- -------------- LOOP MAP ------------------ -->
 
     <div class="row" id="loop-object">
         <h2 class="col-sm-12">Loop map</h2>
@@ -613,7 +801,6 @@ for (thing, color) in things.items():
 
                 </code>
             </pre>
-
         </div>
         <div class="col-sm-4 block-js">
             <pre>
@@ -627,10 +814,17 @@ for (let thing in things) {
 }
                 </code>
             </pre>
-
+        </div>
+        <div class="col-sm-4 block-java">
+            <pre>
+                <code class="java">
+// No primitive mapping type
+                </code>
+            </pre>
         </div>
     </div>
 
+    <!-- -------------- SPLIT JOIN ------------------ -->
     <div class="row" id="split-join">
         <h2 class="col-sm-12">Split & join</h2>
         <div class="col-sm-4 block-php">
@@ -653,19 +847,30 @@ csv = ','.join(letters)
 letters_again = csv.split(',')
                 </code>
             </pre>
-
         </div>
         <div class="col-sm-4 block-js">
             <pre>
                 <code class="javascript">
-let letters = ['a','b','c','d','e']
-let alpha = letters.join('')
-let csv = letters.join(',')
-let lettersAgain = csv.split(',')
+let letters = ['a','b','c','d','e'];
+let alpha = letters.join('');
+let csv = letters.join(',');
+let lettersAgain = csv.split(',');
+                </code>
+            </pre>
+        </div>
+        <div class="col-sm-4 block-java">
+            <pre>
+                <code class="javascript">
+String[] letters = {"a", "b", "c", "d", "e"};
+String alpha = String.join("", letters);
+String csv = String.join(",", letters);
+String[] lettersAgain = csv.split(",")
                 </code>
             </pre>
         </div>
     </div>
+
+    <!-- -------------- ARRAYS ------------------ -->
 
     <div class="row" id="array">
         <h2 class="col-sm-12">Arrays</h2>
@@ -695,7 +900,6 @@ letters[2:3] # ['c']
 ['a','b','c'] + ['d','e','f','g'] # ['a', 'b', 'c', 'd', 'e', 'f', 'g']
                 </code>
             </pre>
-
         </div>
         <div class="col-sm-4 block-js">
             <pre>
@@ -710,7 +914,19 @@ letters.slice(2, 3); // ['c']
                 </code>
             </pre>
         </div>
+        <div class="col-sm-4 block-java">
+            <pre>
+                <code class="java">
+char[] letters = {'a','b','c','d','e'};
+//arrays are immutable
+letters.length; // 5
+// other features not available in basic arrays
+                </code>
+            </pre>
+        </div>
     </div>
+
+    <!-- -------------- ARRAY OPS ------------------ -->
 
     <div class="row" id="array-ops">
         <h2 class="col-sm-12">Array Operations</h2>
@@ -743,14 +959,21 @@ letters.map(function(l) { return l.toUpperCase(); }); // ['A','B','C','D','E','F
                 </code>
             </pre>
         </div>
+        <div class="col-sm-4 block-java">
+            <pre>
+                <code class="java">
+// mapping is a function of Streams
+                </code>
+            </pre>
+        </div>
     </div>
+</div>
 
+<!-- -------------- TRUTHINESS ------------------ -->
 
-
-
-    <div class="row" id="truthiness">
-        <h2 class="col-sm-12">Truthiness</h2>
-        <div class="col-sm-4 block-php">
+<div class="row" id="truthiness">
+    <h2 class="col-sm-12">Truthiness</h2>
+    <div class="col-sm-4 block-php">
             <pre>
                 <code class="php">
 function isTruthy($var) {
@@ -766,8 +989,8 @@ isTruthy([0]); // true
                 </code>
             </pre>
 
-        </div>
-        <div class="col-sm-4 block-python">
+    </div>
+    <div class="col-sm-4 block-python">
             <pre>
                 <code class="python">
 def isTruthy(var): 
@@ -785,8 +1008,8 @@ isTruthy(set()) # false
                 </code>
             </pre>
 
-        </div>
-        <div class="col-sm-4 block-js">
+    </div>
+    <div class="col-sm-4 block-js">
             <pre>
                 <code class="javascript">
 function isTruthy(myVar) { 
@@ -802,21 +1025,21 @@ isTruthy([0]) // true
 isTruthy({}) // true !
                 </code>
             </pre>
-        </div>
     </div>
+    <div class="col-sm-4 block-java">
+            <pre>
+                <code class="java">
+// Only booleans are truthy / falsy
+                </code>
+            </pre>
+    </div>
+</div>
 
+<!-- -------------- CLASSES ------------------ -->
 
-
-
-
-
-
-
-
-
-    <div class="row" id="class">
-        <h2 class="col-sm-12">Classes</h2>
-        <div class="col-sm-4 block-php">
+<div class="row" id="class">
+    <h2 class="col-sm-12">Classes</h2>
+    <div class="col-sm-4 block-php">
             <pre>
                 <code class="php">
 class Vehicle {
@@ -850,8 +1073,8 @@ $flyingCar->describe();
                 </code>
             </pre>
 
-        </div>
-        <div class="col-sm-4 block-python">
+    </div>
+    <div class="col-sm-4 block-python">
             <pre>
                 <code class="python">
 class Vehicle:
@@ -875,8 +1098,8 @@ flying_car.describe()
                 </code>
             </pre>
 
-        </div>
-        <div class="col-sm-4 block-js">
+    </div>
+    <div class="col-sm-4 block-js">
             <pre>
                 <code class="javascript">
 class Vehicle {
@@ -906,14 +1129,14 @@ flyingCar.setWings(2);
 flyingCar.describe();
                 </code>
             </pre>
-        </div>
     </div>
+</div>
 
-    <!-- --------------------  CLI  -------------------- -->
+<!-- --------------------  PROJECT  -------------------- -->
 
-    <div class="row" id="project">
-        <h2 class="col-sm-12">Single-project environments</h2>
-        <div class="col-sm-4 block-php">
+<div class="row" id="project">
+    <h2 class="col-sm-12">Single-project environments</h2>
+    <div class="col-sm-4 block-php">
             <pre>
                 <code class="bash">
 # Create project (inside project dir)
@@ -925,8 +1148,8 @@ composer require [--dev] some/package
                 </code>
             </pre>
 
-        </div>
-        <div class="col-sm-4 block-python">
+    </div>
+    <div class="col-sm-4 block-python">
             <pre>
                 <code class="bash">
 # Create / activate project (inside project dir)
@@ -940,8 +1163,8 @@ pipenv --venv
                 </code>
             </pre>
 
-        </div>
-        <div class="col-sm-4 block-js">
+    </div>
+    <div class="col-sm-4 block-js">
             <pre>
                 <code class="bash">
 # Create project (inside project dir)
@@ -952,13 +1175,14 @@ npm install
 npm install --save[-dev] somepackage
                 </code>
             </pre>
-        </div>
     </div>
+</div>
 
+<!-- --------------------  REPL  -------------------- -->
 
-    <div class="row" id="repls">
-        <h2 class="col-sm-12">Interactive mode / REPL</h2>
-        <div class="col-sm-4 block-php">
+<div class="row" id="repls">
+    <h2 class="col-sm-12">Interactive mode / REPL</h2>
+    <div class="col-sm-4 block-php">
             <pre>
                 <code class="bash">
 host$ php -a
@@ -970,8 +1194,8 @@ string(3) "foo"
                 </code>
             </pre>
 
-        </div>
-        <div class="col-sm-4 block-python">
+    </div>
+    <div class="col-sm-4 block-python">
             <pre>
                 <code class="bash">
 host$ python3
@@ -984,8 +1208,8 @@ Type "help", "copyright", "credits" or "license" for more information.
                 </code>
             </pre>
 
-        </div>
-        <div class="col-sm-4 block-js">
+    </div>
+    <div class="col-sm-4 block-js">
             <pre>
                 <code class="bash">
 host$ node --use-strict
@@ -995,12 +1219,23 @@ undefined
 'foo'
                 </code>
             </pre>
-        </div>
     </div>
+    <div class="col-sm-4 block-java">
+            <pre>
+                <code class="java"># Requires JDK 9+
+host$ jshell
+jshell> String x="foo";
+x ==> "foo"
+jshell> x
+x ==> "foo"
+                </code>
+            </pre>
+    </div>
+</div>
 
-    <div class="row" id="exception">
-        <h2 class="col-sm-12">Exceptions</h2>
-        <div class="col-sm-4 block-php">
+<div class="row" id="exception">
+    <h2 class="col-sm-12">Exceptions</h2>
+    <div class="col-sm-4 block-php">
             <pre>
                 <code class="php">
 try {
@@ -1010,8 +1245,8 @@ try {
 }
                 </code>
             </pre>
-        </div>
-        <div class="col-sm-4 block-python">
+    </div>
+    <div class="col-sm-4 block-python">
             <pre>
                 <code class="python">
 try:
@@ -1021,8 +1256,8 @@ except Exception as e:
 
                 </code>
             </pre>
-        </div>
-        <div class="col-sm-4 block-js">
+    </div>
+    <div class="col-sm-4 block-js">
             <pre>
                 <code class="javascript">
 try {
@@ -1032,60 +1267,60 @@ try {
 }
                 </code>
             </pre>
-        </div>
     </div>
-    <!-- --------------------  --------------------  -------------------- -->
+</div>
+<!-- --------------------  --------------------  -------------------- -->
 
-    <div class="row" id="notes">
-        <h2 class="col-sm-12">Notes & FAQ</h2>
-        <div class="col-sm-12">
-            <dl>
-                <dt>What's this for?</dt>
-                <dd>It's a memory aid for myself for I'm working in these three languages in quick succession and
-                    can't remember the exact syntax of a given feature in one of them.
-                </dd>
-                <dt>Caveat</dt>
-                <dd>While all code should be functional and idiomatic, it won't usually be the only way to do
-                    something in a given language. As this is not intended as an exhaustive "learn to code"
-                    resource, there are few explanations or outputs.
-                </dd>
-                <dt>Can I use this?</dt>
-                <dd>Sure, but please refer to the <a rel="license"
-                                                     href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC
-                    BY-NC-SA 4.0 License</a>.
-                    Note that by "non-commercial" I mean "don't sell it". If you want to use it at work or in a course,
-                    feel free, but the attribution must remain.
-                </dd>
-                <dt>Can you add [Language X]?</dt>
-                <dd>No - I (probably) don't use it. You can fork the project for your own use though, subject to the
-                    licence.
-                </dd>
-                <dt>Can you add [Feature Y]?</dt>
-                <dd>Possibly. <a href="https://github.com/parsingphase/rosetta-ppj/issues">Open an issue</a>, but don't
-                    rely on a fast turnaround.
-                    Or add the feature yourself and <a href="https://github.com/parsingphase/rosetta-ppj/pulls">create a
-                        pull request</a>.
-                </dd>
-                <dt>Something's incorrect</dt>
-                <dd>Drop me a line or open an issue or PR. The code has all been checked in a
-                    <abbr title="Read-Execute-Print Loop">REPL</abbr> but copy/paste errors
-                    can occur.
-                </dd>
-                <dt>Hasn't this been done before?</dt>
-                <dd>So far as I'm aware, not in quite this three-way, feature-by-feature format, but <a
-                        href="http://www.rosettacode.org">Rosetta Code</a>
-                    and <a href="http://www.99-bottles-of-beer.net">99 Bottles</a> cover similar areas. No code from
-                    those sites has been used here, however.
-                </dd>
-                <dt>Do you really use two-space tabs?</dt>
-                <dd>No! But adjustments have to be made to fit three languages next to each other.</dd>
-                <dt>Credit</dt>
-                <dd>This project would be far less elegant without the availability of <a
-                        href="https://getbootstrap.com">Bootstrap</a> and
-                    <a href="https://highlightjs.org">Highlight.js</a></dd>
-            </dl>
-        </div>
+<div class="row" id="notes">
+    <h2 class="col-sm-12">Notes & FAQ</h2>
+    <div class="col-sm-12">
+        <dl>
+            <dt>What's this for?</dt>
+            <dd>It's a memory aid for myself for I'm working in these three languages in quick succession and
+                can't remember the exact syntax of a given feature in one of them.
+            </dd>
+            <dt>Caveat</dt>
+            <dd>While all code should be functional and idiomatic, it won't usually be the only way to do
+                something in a given language. As this is not intended as an exhaustive "learn to code"
+                resource, there are few explanations or outputs.
+            </dd>
+            <dt>Can I use this?</dt>
+            <dd>Sure, but please refer to the <a rel="license"
+                                                 href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC
+                BY-NC-SA 4.0 License</a>.
+                Note that by "non-commercial" I mean "don't sell it". If you want to use it at work or in a course,
+                feel free, but the attribution must remain.
+            </dd>
+            <dt>Can you add [Language X]?</dt>
+            <dd>No - I (probably) don't use it. You can fork the project for your own use though, subject to the
+                licence.
+            </dd>
+            <dt>Can you add [Feature Y]?</dt>
+            <dd>Possibly. <a href="https://github.com/parsingphase/rosetta-ppj/issues">Open an issue</a>, but don't
+                rely on a fast turnaround.
+                Or add the feature yourself and <a href="https://github.com/parsingphase/rosetta-ppj/pulls">create a
+                    pull request</a>.
+            </dd>
+            <dt>Something's incorrect</dt>
+            <dd>Drop me a line or open an issue or PR. The code has all been checked in a
+                <abbr title="Read-Execute-Print Loop">REPL</abbr> but copy/paste errors
+                can occur.
+            </dd>
+            <dt>Hasn't this been done before?</dt>
+            <dd>So far as I'm aware, not in quite this three-way, feature-by-feature format, but <a
+                    href="http://www.rosettacode.org">Rosetta Code</a>
+                and <a href="http://www.99-bottles-of-beer.net">99 Bottles</a> cover similar areas. No code from
+                those sites has been used here, however.
+            </dd>
+            <dt>Do you really use two-space tabs?</dt>
+            <dd>No! But adjustments have to be made to fit three languages next to each other.</dd>
+            <dt>Credit</dt>
+            <dd>This project would be far less elegant without the availability of <a
+                    href="https://getbootstrap.com">Bootstrap</a> and
+                <a href="https://highlightjs.org">Highlight.js</a></dd>
+        </dl>
     </div>
+</div>
 
 
 </div>
